@@ -128,26 +128,17 @@ sudo systemctl enable --now kindle-send.timer
 
 ## Architecture
 
-```
-┌─────────────┐    GET /api/v1/links     ┌──────────────┐
-│  LinkWarden  │ ◄─────────────────────── │  This tool   │
-│  (self-host) │ ────────────────────────►│              │
-└─────────────┘  PUT /api/v1/links/:id    │  1. Fetch    │
-                  (add "kindle-sent" tag)  │  2. Convert  │
-                                           │  3. Email    │
-                                           └──────┬───────┘
-                                                  │ SMTP
-                                                  ▼
-                                           ┌──────────────┐
-                                           │  Amazon SES  │
-                                           │  @kindle.com │
-                                           └──────┬───────┘
-                                                  │ WiFi sync
-                                                  ▼
-                                           ┌──────────────┐
-                                           │   Kindle     │
-                                           │   (2015)     │
-                                           └──────────────┘
+```mermaid
+flowchart TD
+    LW[LinkWarden<br/>(self-host)]
+    TT[This tool<br/>1. Fetch<br/>2. Convert<br/>3. Email]
+    SMTP[Standard SMTP<br/>@kindle.com]
+    K[Kindle<br/>(2015)]
+
+    LW -->|GET /api/v1/links| TT
+    TT -->|PUT /api/v1/links/:id<br/>(add "kindle-sent" tag)| LW
+    TT -->|SMTP| SMTP
+    SMTP -->|WiFi sync| K
 ```
 
 ## Troubleshooting
