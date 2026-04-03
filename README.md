@@ -15,7 +15,7 @@ Send articles saved in your self-hosted [LinkWarden](https://linkwarden.app) ins
 - **Node.js 24+** (or Docker)
 - A **LinkWarden access token** (Settings → Access Tokens in your instance)
 - Your **Kindle email address** (Amazon account → Devices → your Kindle)
-- An **SMTP account** for sending email (Gmail with App Password, Fastmail, self-hosted, etc.)
+- An **SMTP account** for sending email (I use Resend.dev)
 - The SMTP sender address added to Amazon's **Approved Personal Document E-mail List**
 
 ## Setup

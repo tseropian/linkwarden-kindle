@@ -1,0 +1,20 @@
+# Optional: run as a scheduled service alongside your LinkWarden stack.
+# If you already have a compose file for LinkWarden, just add this service.
+
+services:
+  linkwarden-to-kindle:
+    build: .
+    env_file: .env
+    # Run daily at 8pm — adjust the cron expression to taste
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        echo "0 20 * * * cd /app && node dist/index.js send --format epub" > /tmp/crontab
+        supercronic /tmp/crontab
+    restart: unless-stopped
+
+  # Alternative: run once and exit (for manual or host-cron use)
+  # linkwarden-to-kindle-oneshot:
+  #   build: .
+  #   env_file: .env
+  #   command: ["node", "dist/index.js", "send", "--format", "epub"]
