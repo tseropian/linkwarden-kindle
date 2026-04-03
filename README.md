@@ -4,7 +4,7 @@ Send articles saved in your self-hosted [LinkWarden](https://linkwarden.app) ins
 
 ## How it works
 
-1. You tag articles in LinkWarden with a "kindle" tag (or whatever tag you configure)
+1. You tag articles in LinkWarden with a `kindle` tag (or whatever tag you configure)
 2. This tool fetches those articles via the LinkWarden API
 3. Converts the readable content to EPUB (or HTML as a fallback)
 4. Emails the file to your Kindle's `@kindle.com` address
