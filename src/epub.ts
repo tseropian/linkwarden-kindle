@@ -37,7 +37,11 @@ export async function generateEpub(
 ): Promise<Buffer> {
   // Dynamic import because epub-gen-memory is ESM
   const epubGen = await import("epub-gen-memory");
-  const generate = epubGen.default || epubGen;
+  // CJS interop: epubGen.default is module.exports; the actual epub fn is module.exports.default
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const epubModule: any = epubGen.default || epubGen;
+  const generate: (...args: unknown[]) => Promise<Uint8Array> =
+    typeof epubModule === "function" ? epubModule : epubModule.default;
 
   const articleContent = link.textContent || link.description || "No content available.";
 
@@ -66,7 +70,10 @@ export async function generateDigestEpub(
   links: LinkWardenLink[]
 ): Promise<Buffer> {
   const epubGen = await import("epub-gen-memory");
-  const generate = epubGen.default || epubGen;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const epubModule: any = epubGen.default || epubGen;
+  const generate: (...args: unknown[]) => Promise<Uint8Array> =
+    typeof epubModule === "function" ? epubModule : epubModule.default;
 
   const date = new Date().toISOString().split("T")[0];
 
