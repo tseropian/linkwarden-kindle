@@ -5,11 +5,11 @@ services:
   linkwarden-to-kindle:
     build: .
     env_file: .env
-    # Run daily at 8pm — adjust the cron expression to taste
+    # Run every 10 minutes — adjust the cron expression to taste
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |
-        echo "0 20 * * * cd /app && node dist/index.js send --format epub" > /tmp/crontab
+        echo "*/10 * * * * cd /app && node dist/index.js send --format epub" > /tmp/crontab
         supercronic /tmp/crontab
     restart: unless-stopped
 
